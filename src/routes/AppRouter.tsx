@@ -7,6 +7,9 @@ import { DoctorsPage } from '../pages/doctors/DoctorsPage'
 import { SchedulesPage } from '../pages/schedules/SchedulesPage'
 import { Layout } from '../components/layout/Layout'
 import { DocsPage } from '../pages/docs/DocsPage'
+import { PatientsPage } from '../pages/patients/PatientsPage'
+import { MyProfilePage } from '../pages/patients/MyProfilePage'
+import { CitasPage } from '../pages/citas/CitasPage'
 
 const PrivateRoute = ({ children }: { children: React.ReactNode }) => {
     const { isAuthenticated } = useAuth()
@@ -24,6 +27,9 @@ export const AppRouter = () => (
                 <Route path="doctors" element={<DoctorsPage />} />
                 <Route path="schedules" element={<SchedulesPage />} />
                 <Route path="docs" element={<DocsPage />} />
+                <Route path="patients" element={<PatientsPage />} />
+                <Route path="profile" element={<MyProfilePage />} />
+                <Route path="citas" element={<CitasPage />} />
             </Route>
         </Routes>
     </BrowserRouter>

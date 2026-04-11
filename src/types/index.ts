@@ -72,3 +72,49 @@ export interface Slot {
     horaFin: string
     disponible: boolean
 }
+
+export interface Patient {
+    id: number
+    nombre: string
+    apellido: string
+    documento: string
+    email: string
+    telefono: string
+    fechaNacimiento: string
+    direccion: string
+    eps: string
+    tipoSangre: string
+}
+
+export interface PatientRequest {
+    nombre: string
+    apellido: string
+    documento: string
+    email: string
+    telefono: string
+    fechaNacimiento: string
+    direccion?: string
+    eps?: string
+    tipoSangre?: string
+}
+
+export interface Cita {
+    id: number
+    patientId: number
+    nombrePaciente: string
+    doctorId: number
+    nombreDoctor: string
+    especialidad: string
+    fecha: string
+    horaInicio: string
+    motivoConsulta: string
+    estado: 'PENDIENTE' | 'CONFIRMADA' | 'CANCELADA' | 'COMPLETADA'
+}
+
+export interface CitaRequest {
+    patientId: number
+    doctorId: number
+    fecha: string
+    horaInicio: string
+    motivoConsulta: string
+}

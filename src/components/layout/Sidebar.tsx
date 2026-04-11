@@ -6,6 +6,13 @@ const links = [
     { to: '/specialties', label: '🏥 Especialidades', roles: ['ADMIN'] },
     { to: '/doctors', label: '👨‍⚕️ Doctores', roles: ['ADMIN', 'RECEPCIONISTA', 'PACIENTE'] },
     { to: '/schedules', label: '📅 Horarios', roles: ['ADMIN', 'DOCTOR', 'RECEPCIONISTA'] },
+    { to: '/docs', label: '📋 Endpoints', roles: ['ADMIN', 'DOCTOR', 'RECEPCIONISTA', 'PACIENTE'] },
+    { to: '/specialties', label: '🏥 Especialidades', roles: ['ADMIN'] },
+    { to: '/doctors', label: '👨‍⚕️ Doctores', roles: ['ADMIN', 'RECEPCIONISTA', 'PACIENTE'] },
+    { to: '/patients', label: '🧑‍⚕️ Pacientes', roles: ['ADMIN', 'RECEPCIONISTA'] },
+    { to: '/citas', label: '📅 Citas', roles: ['ADMIN', 'RECEPCIONISTA', 'PACIENTE'] },
+    { to: '/schedules', label: '🗓 Horarios', roles: ['ADMIN', 'DOCTOR', 'RECEPCIONISTA'] },
+    { to: '/profile', label: '👤 Mi perfil', roles: ['PACIENTE'] },
 ]
 
 export const Sidebar = () => {
