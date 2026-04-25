@@ -2,13 +2,18 @@ import { NavLink } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 
 const links = [
-    { to: '/docs', label: '📋 Endpoints', roles: ['ADMIN', 'DOCTOR', 'RECEPCIONISTA', 'PACIENTE'] },
-    { to: '/specialties', label: '🏥 Especialidades', roles: ['ADMIN'] },
-    { to: '/doctors', label: '👨‍⚕️ Doctores', roles: ['ADMIN', 'RECEPCIONISTA', 'PACIENTE'] },
-    { to: '/schedules', label: '📅 Horarios', roles: ['ADMIN', 'DOCTOR', 'RECEPCIONISTA'] },
-    { to: '/patients', label: '🧑‍⚕️ Pacientes', roles: ['ADMIN', 'RECEPCIONISTA'] },
-    { to: '/citas', label: '📅 Citas', roles: ['ADMIN', 'RECEPCIONISTA', 'PACIENTE'] },
-    { to: '/profile', label: '👤 Mi perfil', roles: ['PACIENTE'] },
+  { to: '/docs', label: '📋 Endpoints', roles: ['ADMIN', 'DOCTOR', 'RECEPCIONISTA', 'PACIENTE'] },
+  { to: '/specialties', label: '🏥 Especialidades', roles: ['ADMIN'] },
+  { to: '/doctors', label: '👨‍⚕️ Doctores', roles: ['ADMIN', 'RECEPCIONISTA', 'PACIENTE'] },
+  { to: '/patients', label: '🧑‍⚕️ Pacientes', roles: ['ADMIN', 'RECEPCIONISTA'] },
+  { to: '/citas', label: '📅 Agendar cita', roles: ['ADMIN', 'RECEPCIONISTA'] },
+  { to: '/gestion-citas', label: '🗂 Gestión de citas', roles: ['ADMIN', 'RECEPCIONISTA'] },
+  { to: '/schedules', label: '🗓 Horarios', roles: ['ADMIN', 'DOCTOR', 'RECEPCIONISTA'] },
+  { to: '/agenda-hoy', label: '🩺 Mi agenda hoy', roles: ['DOCTOR'] },
+  { to: '/mis-citas', label: '📋 Mis citas', roles: ['PACIENTE'] },
+  { to: '/profile', label: '👤 Mi perfil', roles: ['PACIENTE'] },
+  { to: '/reportes', label: '📊 Reportes', roles: ['ADMIN'] },
+  { to: '/notificaciones', label: '🔔 Notificaciones', roles: ['ADMIN', 'RECEPCIONISTA'] },
 ]
 
 export const Sidebar = () => {
