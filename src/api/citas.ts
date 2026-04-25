@@ -1,5 +1,5 @@
 import api from './axios'
-import type { Cita, CitaRequest } from '../types'
+import type { AtencionRequest, Cita, CitaRequest } from '../types'
 
 export const agendarCita = (data: CitaRequest) =>
     api.post<Cita>('/citas', data)
@@ -18,3 +18,21 @@ export const getCitasByDoctor = (doctorId: number, fecha: string) =>
 
 export const getSlotsDisponibles = (doctorId: number, fecha: string) =>
     api.get(`/citas/slots-disponibles`, { params: { doctorId, fecha } })
+
+export const cancelarCita = (id: number, data: { motivoCancelacion: string }) =>
+  api.patch(`/citas/${id}/cancelar`, data)
+
+export const confirmarLlegada = (id: number, data: { horaLlegada: string }) =>
+  api.patch(`/citas/${id}/confirmar-llegada`, data)
+
+export const atenderCita = (id: number, data: AtencionRequest) =>
+  api.patch(`/citas/${id}/atender`, data)
+
+export const getMisCitasFiltradas = (params: {
+  estado?: string
+  desde?: string
+  hasta?: string
+}) => api.get('/citas/mis-citas', { params })
+
+export const getAgendaHoy = () =>
+  api.get('/citas/mi-agenda-hoy')
