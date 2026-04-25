@@ -1,73 +1,144 @@
-# React + TypeScript + Vite
+# MediCitas 🏥
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Sistema de agendamiento de citas médicas para una clínica con múltiples especialidades y doctores.
 
-Currently, two official plugins are available:
+## Tecnologías
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+**Backend**
+- Java 21
+- Spring Boot 4.0.3
+- Spring Data JPA + PostgreSQL
+- Spring Security + JWT
+- JUnit 5 + Mockito
+- SpringDoc OpenAPI (Swagger)
+- Docker + Docker Compose
 
-## React Compiler
+**Frontend**
+- React 18 + TypeScript
+- Vite
+- Tailwind CSS
+- React Router DOM
+- Axios
+- React Hook Form
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Requisitos previos
 
-## Expanding the ESLint configuration
+- Java 21+
+- Node.js 18+
+- PostgreSQL 15+
+- Docker y Docker Compose (opcional)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Instalación y ejecución
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Opción 1 — Docker Compose (recomendado)
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+docker-compose up --build
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Esto levanta automáticamente la base de datos y el backend.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### Opción 2 — Ejecución local
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+**Base de datos**
+
+Crea la base de datos en PostgreSQL:
+```sql
+CREATE DATABASE medicitas;
 ```
+
+**Backend**
+```bash
+./gradlew bootRun
+```
+
+**Frontend**
+```bash
+cd medicitas-frontend
+npm install
+npm run dev
+```
+
+## URLs
+
+| Servicio | URL |
+|----------|-----|
+| Backend | http://localhost:8080 |
+| Frontend | http://localhost:5173 |
+| Swagger UI | http://localhost:8080/swagger-ui/index.html |
+| API Docs | http://localhost:8080/v3/api-docs |
+
+## Usuarios de prueba
+
+| Rol | Email | Password |
+|-----|-------|----------|
+| ADMIN | admin@medicitas.com | admin1234 |
+| RECEPCIONISTA | recep@medicitas.com | recep1234 |
+| PACIENTE | paciente@medicitas.com | paciente1234 |
+
+## Historias de usuario implementadas
+
+| US | Descripción | Módulo |
+|----|-------------|--------|
+| US-001 | Registro de pacientes | Autenticación |
+| US-002 | Login | Autenticación |
+| US-003 | Refresh token | Autenticación |
+| US-004 | CRUD de especialidades | Especialidades |
+| US-005 | CRUD de doctores | Doctores |
+| US-006 | Consultar doctores por especialidad | Doctores |
+| US-007 | Configurar horario del doctor | Horarios |
+| US-008 | Ver slots disponibles | Horarios |
+| US-009 | CRUD de pacientes | Pacientes |
+| US-010 | Ver y actualizar perfil | Pacientes |
+| US-011 | Agendar cita (recepcionista) | Citas |
+| US-012 | Paciente solicita cita | Citas |
+| US-013 | Cancelar cita | Citas |
+| US-014 | Confirmar asistencia | Citas |
+| US-015 | Atender cita (doctor) | Citas |
+| US-016 | Ver historial de citas | Citas |
+| US-017 | Agenda del día (doctor) | Citas |
+| US-018 | Reporte de citas por período | Reportes |
+| US-019 | Reporte de productividad | Reportes |
+| US-020 | Servicio de notificaciones | Notificaciones |
+
+## Requisitos no funcionales
+
+| Requisito | Implementación |
+|-----------|----------------|
+| Autenticación | JWT con access token (15 min) y refresh token (7 días) |
+| Passwords | BCrypt con strength 10 |
+| Documentación API | 100% endpoints documentados en Swagger |
+| Versionado | API versionada en `/api/v1/` |
+| Containerización | docker-compose.yml que levanta app + BD |
+
+## Estructura del proyecto
+
+src/
+├── config/          # Seguridad, CORS, Swagger, DataInitializer
+├── controller/      # Endpoints REST
+├── dto/             # Objetos de transferencia de datos
+├── entity/          # Entidades JPA
+├── enums/           # Roles y estados
+├── exception/       # Manejo global de errores
+├── repository/      # Acceso a datos
+├── security/        # JWT filter y service
+└── service/         # Lógica de negocio
+└── impl/        # Implementaciones
+
+## Variables de entorno
+
+```properties
+SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/medicitas
+SPRING_DATASOURCE_USERNAME=postgres
+SPRING_DATASOURCE_PASSWORD=postgres
+JWT_SECRET=c2VjcmV0S2V5U3VwZXJTZWN1cmFQYXJhTWVkaUNpdGFzMjAyNA==
+```
+
+## Colección Postman
+
+Importa el archivo `medicitas.postman_collection.json` en Postman para probar todos los endpoints.
+
+1. Abre Postman → Import → selecciona el archivo
+2. Selecciona el environment `MediCitas Local`
+3. Ejecuta primero **US-002 Login** para obtener el token automáticamente
+4. Prueba cualquier endpoint
