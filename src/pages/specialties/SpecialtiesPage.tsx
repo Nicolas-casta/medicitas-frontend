@@ -66,7 +66,7 @@ export const SpecialtiesPage = () => {
   return (
     <div>
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold text-slate-100">🏥 Especialidades</h1>
+        <h1 className="text-2xl font-bold text-slate-100">Especialidades</h1>
         <Button onClick={openCreate}>+ Nueva especialidad</Button>
       </div>
 

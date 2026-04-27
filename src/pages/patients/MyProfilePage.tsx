@@ -40,7 +40,7 @@ export const MyProfilePage = () => {
   return (
     <div className="max-w-lg">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold text-slate-100">👤 Mi perfil</h1>
+        <h1 className="text-2xl font-bold text-slate-100">Mi perfil</h1>
         <Button variant="ghost" onClick={() => setEditing(!editing)}>
           {editing ? "Cancelar" : "Editar"}
         </Button>

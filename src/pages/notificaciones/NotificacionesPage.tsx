@@ -24,7 +24,7 @@ export const NotificacionesPage = () => {
   return (
     <div className="max-w-lg">
       <h1 className="text-2xl font-bold text-slate-100 mb-2">
-        🔔 Notificaciones
+         Notificaciones
       </h1>
       <p className="text-slate-400 text-sm mb-6">
         Simula el microservicio de notificaciones (US-020)
@@ -32,7 +32,7 @@ export const NotificacionesPage = () => {
 
       {enviado && (
         <div className="bg-green-900 border border-green-700 text-green-300 rounded-xl px-4 py-3 text-sm mb-4">
-          ✅ Notificación enviada correctamente
+          Notificación enviada correctamente
         </div>
       )}
 
@@ -65,7 +65,7 @@ export const NotificacionesPage = () => {
           />
         </div>
         <Button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? "Enviando..." : "📤 Enviar notificación"}
+          {isSubmitting ? "Enviando..." : "Enviar notificación"}
         </Button>
       </form>
     </div>

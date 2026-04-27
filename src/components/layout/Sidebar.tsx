@@ -2,18 +2,18 @@ import { NavLink } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 
 const links = [
-  { to: '/docs', label: '📋 Endpoints', roles: ['ADMIN', 'DOCTOR', 'RECEPCIONISTA', 'PACIENTE'] },
-  { to: '/specialties', label: '🏥 Especialidades', roles: ['ADMIN'] },
-  { to: '/doctors', label: '👨‍⚕️ Doctores', roles: ['ADMIN', 'RECEPCIONISTA', 'PACIENTE'] },
-  { to: '/patients', label: '🧑‍⚕️ Pacientes', roles: ['ADMIN', 'RECEPCIONISTA'] },
-  { to: '/citas', label: '📅 Agendar cita', roles: ['ADMIN', 'RECEPCIONISTA'] },
-  { to: '/gestion-citas', label: '🗂 Gestión de citas', roles: ['ADMIN', 'RECEPCIONISTA'] },
-  { to: '/schedules', label: '🗓 Horarios', roles: ['ADMIN', 'DOCTOR', 'RECEPCIONISTA'] },
-  { to: '/agenda-hoy', label: '🩺 Mi agenda hoy', roles: ['DOCTOR'] },
-  { to: '/mis-citas', label: '📋 Mis citas', roles: ['PACIENTE'] },
-  { to: '/profile', label: '👤 Mi perfil', roles: ['PACIENTE'] },
-  { to: '/reportes', label: '📊 Reportes', roles: ['ADMIN'] },
-  { to: '/notificaciones', label: '🔔 Notificaciones', roles: ['ADMIN', 'RECEPCIONISTA'] },
+  { to: '/docs', label: 'Endpoints', roles: ['ADMIN', 'DOCTOR', 'RECEPCIONISTA'] },
+  { to: '/specialties', label: 'Especialidades', roles: ['ADMIN'] },
+  { to: '/doctors', label: 'Doctores', roles: ['ADMIN', 'RECEPCIONISTA', 'PACIENTE'] },
+  { to: '/patients', label: 'Pacientes', roles: ['ADMIN', 'RECEPCIONISTA'] },
+  { to: '/citas', label: 'Agendar cita', roles: ['ADMIN', 'RECEPCIONISTA'] },
+  { to: '/gestion-citas', label: 'Gestión de citas', roles: ['ADMIN', 'RECEPCIONISTA'] },
+  { to: '/schedules', label: 'Horarios', roles: ['ADMIN', 'DOCTOR', 'RECEPCIONISTA'] },
+  { to: '/agenda-hoy', label: 'Mi agenda hoy', roles: ['DOCTOR'] },
+  { to: '/mis-citas', label: 'Mis citas', roles: ['PACIENTE'] },
+  { to: '/profile', label: 'Mi perfil', roles: ['PACIENTE'] },
+  { to: '/reportes', label: 'Reportes', roles: ['ADMIN'] },
+  { to: '/notificaciones', label: 'Notificaciones', roles: ['ADMIN', 'RECEPCIONISTA'] },
 ]
 
 export const Sidebar = () => {
@@ -22,7 +22,7 @@ export const Sidebar = () => {
     return (
         <aside className="w-64 bg-slate-800 min-h-screen flex flex-col p-4 border-r border-slate-700">
             <div className="mb-8">
-                <h1 className="text-xl font-bold text-indigo-400">🏨 MediCitas</h1>
+                <h1 className="text-xl font-bold text-indigo-400">MediCitas</h1>
                 <p className="text-xs text-slate-500 mt-1">{user?.email}</p>
                 <span className="text-xs bg-indigo-900 text-indigo-300 px-2 py-0.5 rounded-full">
                     {user?.role}
@@ -47,7 +47,7 @@ export const Sidebar = () => {
 
             <button onClick={logout}
                 className="mt-auto px-3 py-2 text-sm text-red-400 hover:bg-slate-700 rounded-lg transition-colors">
-                🚪 Cerrar sesión
+                Cerrar sesión
             </button>
         </aside>
     )

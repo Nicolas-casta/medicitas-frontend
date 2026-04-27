@@ -46,7 +46,7 @@ export const SchedulesPage = () => {
     return (
         <div>
             <div className="flex justify-between items-center mb-6">
-                <h1 className="text-2xl font-bold text-slate-100">📅 Horarios y Slots</h1>
+                <h1 className="text-2xl font-bold text-slate-100">Horarios y Slots</h1>
                 {selectedDoctor && <Button onClick={() => setShowModal(true)}>+ Agregar horario</Button>}
             </div>
 

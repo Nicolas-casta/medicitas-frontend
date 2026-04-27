@@ -59,7 +59,7 @@ export const PatientsPage = () => {
     return (
         <div>
             <div className="flex justify-between items-center mb-6">
-                <h1 className="text-2xl font-bold text-slate-100">🧑‍⚕️ Pacientes</h1>
+                <h1 className="text-2xl font-bold text-slate-100">Pacientes</h1>
                 <Button onClick={openCreate}>+ Nuevo paciente</Button>
             </div>
 
@@ -76,10 +76,10 @@ export const PatientsPage = () => {
                     <div key={p.id} className="bg-slate-800 border border-slate-700 rounded-xl p-4 flex justify-between items-center">
                         <div>
                             <p className="font-medium text-slate-100">{p.nombre} {p.apellido}</p>
-                            <p className="text-sm text-slate-400">📄 {p.documento} · 📧 {p.email} · 📞 {p.telefono}</p>
+                            <p className="text-sm text-slate-400"> {p.documento} ·  {p.email} ·  {p.telefono}</p>
                             <div className="flex gap-2 mt-1">
                                 {p.eps && <span className="text-xs bg-slate-700 text-slate-300 px-2 py-0.5 rounded-full">EPS: {p.eps}</span>}
-                                {p.tipoSangre && <span className={`text-xs px-2 py-0.5 rounded-full ${estadoColor[p.tipoSangre.replace('+', '').replace('-', '')] || 'bg-slate-700 text-slate-300'}`}>🩸 {p.tipoSangre}</span>}
+                                {p.tipoSangre && <span className={`text-xs px-2 py-0.5 rounded-full ${estadoColor[p.tipoSangre.replace('+', '').replace('-', '')] || 'bg-slate-700 text-slate-300'}`}> {p.tipoSangre}</span>}
                             </div>
                         </div>
                         <div className="flex gap-2">

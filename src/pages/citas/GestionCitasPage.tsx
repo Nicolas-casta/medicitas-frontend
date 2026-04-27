@@ -98,7 +98,7 @@ export const GestionCitasPage = () => {
                   Dr. {c.nombreDoctor} · {c.especialidad}
                 </p>
                 <p className="text-sm text-slate-300">
-                  📅 {c.fecha} · ⏰ {c.horaInicio}
+                   {c.fecha} ·  {c.horaInicio}
                 </p>
                 <p className="text-xs text-slate-500 mt-1">
                   Motivo: {c.motivoConsulta}
@@ -120,7 +120,7 @@ export const GestionCitasPage = () => {
                           setShowConfirmar(true);
                         }}
                       >
-                        ✅ Confirmar llegada
+                        Confirmar llegada
                       </Button>
                       <Button
                         variant="danger"

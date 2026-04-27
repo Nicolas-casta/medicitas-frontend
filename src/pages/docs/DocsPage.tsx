@@ -429,12 +429,12 @@ export const DocsPage = () => {
         <div>
             <div className="flex justify-between items-center mb-6">
                 <div>
-                    <h1 className="text-2xl font-bold text-slate-100">📋 Documentación de endpoints</h1>
+                    <h1 className="text-2xl font-bold text-slate-100">Documentación de endpoints</h1>
                     <p className="text-slate-400 text-sm mt-1">Historias de usuario US-001 a US-020</p>
                 </div>
                 <a href="http://localhost:8080/swagger-ui.html" target="_blank" rel="noreferrer"
                     className="px-4 py-2 bg-slate-700 hover:bg-slate-600 text-slate-100 rounded-lg text-sm transition-colors">
-                    🔗 Abrir Swagger UI
+                    Abrir Swagger UI
                 </a>
             </div>
 

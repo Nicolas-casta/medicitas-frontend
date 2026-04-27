@@ -31,7 +31,7 @@ export const ReportesPage = () => {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-slate-100 mb-6">📊 Reportes</h1>
+      <h1 className="text-2xl font-bold text-slate-100 mb-6">Reportes</h1>
 
       {/* Filtros */}
       <div className="bg-slate-800 border border-slate-700 rounded-xl p-4 mb-6 flex gap-4 items-end flex-wrap">
@@ -54,7 +54,7 @@ export const ReportesPage = () => {
           />
         </div>
         <Button onClick={buscar} disabled={loading}>
-          {loading ? "Cargando..." : "🔍 Generar reporte"}
+          {loading ? "Cargando..." : "Generar reporte"}
         </Button>
       </div>
 
@@ -62,7 +62,7 @@ export const ReportesPage = () => {
       {reportePeriodo && (
         <div className="mb-6">
           <h2 className="text-lg font-semibold text-slate-200 mb-3">
-            📅 Citas por período
+            Citas por período
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mb-4">
             {[
@@ -127,7 +127,7 @@ export const ReportesPage = () => {
       {reporteProductividad.length > 0 && (
         <div>
           <h2 className="text-lg font-semibold text-slate-200 mb-3">
-            👨‍⚕️ Productividad por doctor
+            Productividad por doctor
           </h2>
           <div className="grid gap-3">
             {reporteProductividad.map((r) => (

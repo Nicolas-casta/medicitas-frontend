@@ -74,7 +74,7 @@ export const AgendaHoyPage = () => {
                 <p className="text-xs text-slate-500">
                   Doc: {c.documentoPaciente}
                 </p>
-                <p className="text-sm text-slate-300 mt-1">⏰ {c.horaInicio}</p>
+                <p className="text-sm text-slate-300 mt-1"> {c.horaInicio}</p>
                 <p className="text-xs text-slate-400 mt-1">
                   Motivo: {c.motivoConsulta}
                 </p>

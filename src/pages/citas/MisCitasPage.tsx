@@ -104,7 +104,7 @@ export const MisCitasPage = () => {
                 </p>
                 <p className="text-sm text-slate-400">{c.especialidad}</p>
                 <p className="text-sm text-slate-300 mt-1">
-                  📅 {c.fecha} · ⏰ {c.horaInicio}
+                   {c.fecha} ·  {c.horaInicio}
                 </p>
                 <p className="text-xs text-slate-500 mt-1">
                   Motivo: {c.motivoConsulta}
