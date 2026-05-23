@@ -16,6 +16,16 @@ import { AgendaHoyPage } from "../pages/citas/AgendaHoyPage";
 import { ReportesPage } from "../pages/reportes/ReportesPage";
 import { NotificacionesPage } from "../pages/notificaciones/NotificacionesPage";
 
+const NotFoundPage = () => (
+  <div className="flex flex-col items-center justify-center min-h-screen gap-4">
+    <h1 className="text-4xl font-bold text-slate-400">404</h1>
+    <p className="text-slate-500">Página no encontrada</p>
+    <a href="/doctors" className="text-indigo-400 hover:underline text-sm">
+      Volver al inicio
+    </a>
+  </div>
+)
+
 const PrivateRoute = ({ children }: { children: React.ReactNode }) => {
   const { isAuthenticated } = useAuth();
   return isAuthenticated ? <>{children}</> : <Navigate to="/login" />;
@@ -47,6 +57,7 @@ export const AppRouter = () => (
         <Route path="agenda-hoy" element={<AgendaHoyPage />} />
         <Route path="reportes" element={<ReportesPage />} />
         <Route path="notificaciones" element={<NotificacionesPage />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Route>
     </Routes>
   </BrowserRouter>
