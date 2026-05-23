@@ -5,6 +5,7 @@ import { useAuth } from "../../context/AuthContext";
 import { Input } from "../../components/ui/Input";
 import { Button } from "../../components/ui/Button";
 import type { RegisterRequest } from "../../types";
+import { useState } from "react";
 
 export const RegisterPage = () => {
   const {
@@ -14,14 +15,16 @@ export const RegisterPage = () => {
   } = useForm<RegisterRequest>();
   const { loginUser } = useAuth();
   const navigate = useNavigate();
+  const [loginError, setLoginError] = useState<string | null>(null);
 
   const onSubmit = async (data: RegisterRequest) => {
+    setLoginError(null);
     try {
       const res = await registerApi(data);
       loginUser(res.data.accessToken, res.data.refreshToken);
       navigate("/doctors");
     } catch {
-      alert("Error al registrarse. Verifica los datos.");
+      setLoginError("Error al registrarse. Verifica los datos.");
     }
   };
 
@@ -77,6 +80,9 @@ export const RegisterPage = () => {
             })}
             error={errors.password?.message}
           />
+          {loginError && (
+            <p className="text-red-400 text-sm text-center">{loginError}</p>
+          )}
           <Button type="submit" disabled={isSubmitting} className="mt-2">
             {isSubmitting ? "Registrando..." : "Registrarse"}
           </Button>
