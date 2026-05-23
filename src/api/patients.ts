@@ -22,4 +22,4 @@ export const getMyProfile = () =>
     api.get<Patient>('/patients/me')
 
 export const updateMyProfile = (data: Partial<PatientRequest>) =>
-    api.patch<Patient>('/patients/me', data)
+    api.patch<{ patient: Patient; accessToken: string; refreshToken: string }>('/patients/me', data)

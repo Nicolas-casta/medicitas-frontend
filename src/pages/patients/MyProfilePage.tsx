@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { getMyProfile, updateMyProfile } from "../../api/patients";
-import { refreshToken } from "../../api/auth";
 import { useAuth } from "../../context/AuthContext";
 import type { Patient } from "../../types";
 import { useForm } from "react-hook-form";
@@ -31,17 +30,14 @@ export const MyProfilePage = () => {
   const onSubmit = async (data: Partial<Patient>) => {
     try {
       setSaving(true);
-      await updateMyProfile({
+      const res = await updateMyProfile({
         email: data.email,
         telefono: data.telefono,
         direccion: data.direccion,
       });
 
-      const storedRefresh = localStorage.getItem("refreshToken");
-      if (storedRefresh) {
-        const { data: tokens } = await refreshToken(storedRefresh);
-        loginUser(tokens.accessToken, storedRefresh);
-      }
+      // El backend devuelve tokens nuevos con el email actualizado
+      loginUser(res.data.accessToken, res.data.refreshToken);
 
       setEditing(false);
       await load();
