@@ -23,9 +23,11 @@ export const Sidebar = () => {
             <div className="mb-8">
                 <h1 className="text-xl font-bold text-indigo-400">MediCitas</h1>
                 <p className="text-xs text-slate-500 mt-1">{user?.email}</p>
-                <span className="text-xs bg-indigo-900 text-indigo-300 px-2 py-0.5 rounded-full">
-                    {user?.role}
-                </span>
+                {user?.role === 'ADMIN' && (
+    <span className="text-xs bg-indigo-900 text-indigo-300 px-2 py-0.5 rounded-full">
+        ADMINISTRADOR
+    </span>
+)}
             </div>
 
             <nav className="flex flex-col gap-1 flex-1">
