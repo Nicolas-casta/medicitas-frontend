@@ -20,7 +20,7 @@ const estadoColors: Record<string, string> = {
 
 export const GestionCitasPage = () => {
   const [patients, setPatients] = useState<Patient[]>([]);
-  const [citas, setCitas] = useState<Cita[]>([])
+  const [citas, setCitas] = useState<Cita[]>([]);
   const [selectedPatient, setSelectedPatient] = useState<number | null>(null);
   const [citaSeleccionada, setCitaSeleccionada] = useState<Cita | null>(null);
   const [showCancelar, setShowCancelar] = useState(false);
@@ -66,7 +66,7 @@ export const GestionCitasPage = () => {
   return (
     <div>
       <h1 className="text-2xl font-bold text-slate-100 mb-6">
-        🗂 Gestión de citas
+        Gestión de citas
       </h1>
 
       <div className="mb-6">
@@ -98,7 +98,7 @@ export const GestionCitasPage = () => {
                   Dr. {c.nombreDoctor} · {c.especialidad}
                 </p>
                 <p className="text-sm text-slate-300">
-                   {c.fecha} ·  {c.horaInicio}
+                  {c.fecha} · {c.horaInicio}
                 </p>
                 <p className="text-xs text-slate-500 mt-1">
                   Motivo: {c.motivoConsulta}
@@ -199,4 +199,3 @@ export const GestionCitasPage = () => {
     </div>
   );
 };
-
