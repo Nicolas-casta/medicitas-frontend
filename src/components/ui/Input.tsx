@@ -1,9 +1,11 @@
+import type { UseFormRegisterReturn } from 'react-hook-form'
+
 interface Props {
     label: string
     type?: string
     placeholder?: string
     error?: string
-    register?: any
+    register?: UseFormRegisterReturn
 }
 
 export const Input = ({ label, type = 'text', placeholder, error, register }: Props) => (
