@@ -2,7 +2,6 @@ import { NavLink } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 
 const links = [
-  { to: '/docs', label: 'Endpoints', roles: ['ADMIN', 'DOCTOR', 'RECEPCIONISTA'] },
   { to: '/specialties', label: 'Especialidades', roles: ['ADMIN'] },
   { to: '/doctors', label: 'Doctores', roles: ['ADMIN', 'RECEPCIONISTA', 'PACIENTE'] },
   { to: '/patients', label: 'Pacientes', roles: ['ADMIN', 'RECEPCIONISTA'] },
