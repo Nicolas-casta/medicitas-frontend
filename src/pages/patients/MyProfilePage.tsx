@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { getMyProfile, updateMyProfile } from "../../api/patients";
+import { refreshToken } from "../../api/auth";
+import { useAuth } from "../../context/AuthContext";
 import type { Patient } from "../../types";
 import { useForm } from "react-hook-form";
 import { Input } from "../../components/ui/Input";
@@ -8,6 +10,8 @@ import { Button } from "../../components/ui/Button";
 export const MyProfilePage = () => {
   const [profile, setProfile] = useState<Patient | null | undefined>(undefined);
   const [editing, setEditing] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const { loginUser } = useAuth();
   const { register, handleSubmit, reset } = useForm<Partial<Patient>>();
 
   const load = async () => {
@@ -25,17 +29,34 @@ export const MyProfilePage = () => {
   }, []);
 
   const onSubmit = async (data: Partial<Patient>) => {
-    await updateMyProfile({
-      email: data.email,
-      telefono: data.telefono,
-      direccion: data.direccion,
-    });
-    setEditing(false);
-    load();
+    try {
+      setSaving(true);
+      await updateMyProfile({
+        email: data.email,
+        telefono: data.telefono,
+        direccion: data.direccion,
+      });
+
+      const storedRefresh = localStorage.getItem("refreshToken");
+      if (storedRefresh) {
+        const { data: tokens } = await refreshToken(storedRefresh);
+        loginUser(tokens.accessToken, storedRefresh);
+      }
+
+      setEditing(false);
+      await load();
+    } catch {
+      alert("No se pudieron guardar los cambios.");
+    } finally {
+      setSaving(false);
+    }
   };
 
-  if (!profile)
-    return <p className="text-red-400">Error al cargar el perfil.</p>;
+  if (profile === undefined)
+    return <p className="text-slate-400 text-sm">Cargando perfil...</p>;
+
+  if (profile === null)
+    return <p className="text-red-400 text-sm">Error al cargar el perfil.</p>;
 
   return (
     <div className="max-w-lg">
@@ -77,9 +98,7 @@ export const MyProfilePage = () => {
             </div>
             <div className="flex flex-col gap-1">
               <span className="text-xs text-slate-500">Tipo de sangre</span>
-              <span className="text-slate-100">
-                {profile.tipoSangre || "—"}
-              </span>
+              <span className="text-slate-100">{profile.tipoSangre || "—"}</span>
             </div>
           </div>
         </div>
@@ -91,7 +110,9 @@ export const MyProfilePage = () => {
           <Input label="Email" type="email" register={register("email")} />
           <Input label="Teléfono" register={register("telefono")} />
           <Input label="Dirección" register={register("direccion")} />
-          <Button type="submit">Guardar cambios</Button>
+          <Button type="submit" disabled={saving}>
+            {saving ? "Guardando..." : "Guardar cambios"}
+          </Button>
         </form>
       )}
     </div>
