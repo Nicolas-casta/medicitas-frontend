@@ -51,7 +51,7 @@ export const MisCitasPage = () => {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-slate-100 mb-6">📋 Mis citas</h1>
+      <h1 className="text-2xl font-bold text-slate-100 mb-6">Mis citas</h1>
 
       {/* Filtros */}
       <div className="flex gap-3 mb-6 flex-wrap">
