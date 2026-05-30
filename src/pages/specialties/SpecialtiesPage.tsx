@@ -9,7 +9,9 @@ import type { Specialty } from "../../types";
 import { Button } from "../../components/ui/Button";
 import { Modal } from "../../components/ui/Modal";
 import { Input } from "../../components/ui/Input";
+import { IconButton } from "../../components/ui/IconButton";
 import { useForm } from "react-hook-form";
+import { Pencil, PowerOff } from "lucide-react";
 
 export const SpecialtiesPage = () => {
   const [specialties, setSpecialties] = useState<Specialty[]>([]);
@@ -34,6 +36,7 @@ export const SpecialtiesPage = () => {
     reset();
     setShowModal(true);
   };
+
   const openEdit = (s: Specialty) => {
     setEditing(s);
     setValue("nombre", s.nombre);
@@ -54,11 +57,7 @@ export const SpecialtiesPage = () => {
         await deactivateSpecialty(id);
         load();
       } catch (error) {
-        if (error instanceof Error) {
-          alert(error.message);
-        } else {
-          alert("Error al desactivar");
-        }
+        alert(error instanceof Error ? error.message : "Error al desactivar");
       }
     }
   };
@@ -74,19 +73,24 @@ export const SpecialtiesPage = () => {
         {specialties.map((s) => (
           <div
             key={s.id}
-            className="bg-slate-800 border border-slate-700 rounded-xl p-4 flex justify-between items-center"
+            className="bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 flex justify-between items-center"
           >
             <div>
               <p className="font-medium text-slate-100">{s.nombre}</p>
               <p className="text-sm text-slate-400">{s.descripcion}</p>
             </div>
-            <div className="flex gap-2">
-              <Button variant="ghost" onClick={() => openEdit(s)}>
-                Editar
-              </Button>
-              <Button variant="danger" onClick={() => handleDeactivate(s.id)}>
-                Desactivar
-              </Button>
+            <div className="flex gap-1">
+              <IconButton
+                icon={Pencil}
+                tooltip="Editar especialidad"
+                onClick={() => openEdit(s)}
+              />
+              <IconButton
+                icon={PowerOff}
+                tooltip="Desactivar especialidad"
+                onClick={() => handleDeactivate(s.id)}
+                color="text-red-400 hover:text-red-300 hover:bg-slate-700"
+              />
             </div>
           </div>
         ))}

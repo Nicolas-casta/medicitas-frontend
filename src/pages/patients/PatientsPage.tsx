@@ -9,7 +9,9 @@ import type { Patient, PatientRequest } from "../../types";
 import { Button } from "../../components/ui/Button";
 import { Modal } from "../../components/ui/Modal";
 import { Input } from "../../components/ui/Input";
+import { IconButton } from "../../components/ui/IconButton";
 import { useForm } from "react-hook-form";
+import { Pencil, Trash2 } from "lucide-react";
 
 export const PatientsPage = () => {
   const [patients, setPatients] = useState<Patient[]>([]);
@@ -32,6 +34,7 @@ export const PatientsPage = () => {
     reset();
     setShowModal(true);
   };
+
   const openEdit = (p: Patient) => {
     setEditing(p);
     setValue("nombre", p.nombre);
@@ -86,14 +89,13 @@ export const PatientsPage = () => {
         {patients.map((p) => (
           <div
             key={p.id}
-            className="bg-slate-800 border border-slate-700 rounded-xl p-4 flex justify-between items-center"
+            className="bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 flex justify-between items-center"
           >
             <div>
               <p className="font-medium text-slate-100">
                 {p.nombre} {p.apellido}
               </p>
               <p className="text-sm text-slate-400">
-                {" "}
                 {p.documento} · {p.email} · {p.telefono}
               </p>
               <div className="flex gap-2 mt-1">
@@ -106,19 +108,23 @@ export const PatientsPage = () => {
                   <span
                     className={`text-xs px-2 py-0.5 rounded-full ${estadoColor[p.tipoSangre.replace("+", "").replace("-", "")] || "bg-slate-700 text-slate-300"}`}
                   >
-                    {" "}
                     {p.tipoSangre}
                   </span>
                 )}
               </div>
             </div>
-            <div className="flex gap-2">
-              <Button variant="ghost" onClick={() => openEdit(p)}>
-                Editar
-              </Button>
-              <Button variant="danger" onClick={() => handleDelete(p.id)}>
-                Eliminar
-              </Button>
+            <div className="flex gap-1">
+              <IconButton
+                icon={Pencil}
+                tooltip="Editar paciente"
+                onClick={() => openEdit(p)}
+              />
+              <IconButton
+                icon={Trash2}
+                tooltip="Eliminar paciente"
+                onClick={() => handleDelete(p.id)}
+                color="text-red-400 hover:text-red-300 hover:bg-slate-700"
+              />
             </div>
           </div>
         ))}

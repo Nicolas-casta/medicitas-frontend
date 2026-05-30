@@ -8,32 +8,7 @@ import { Input } from "../../components/ui/Input";
 import { useForm } from "react-hook-form";
 import { useAuth } from "../../context/AuthContext";
 import { UserX } from "lucide-react";
-
-const IconButton = ({
-  icon: Icon,
-  tooltip,
-  onClick,
-  color = "text-slate-400 hover:text-white hover:bg-slate-600",
-}: {
-  icon: React.ElementType;
-  tooltip: string;
-  onClick: () => void;
-  color?: string;
-}) => (
-  <div className="relative group">
-    <button
-      onClick={onClick}
-      className={`p-1.5 rounded-lg transition-colors ${color}`}
-    >
-      <Icon size={15} />
-    </button>
-    <div className="absolute bottom-8 right-0 z-50 hidden group-hover:block pointer-events-none">
-      <div className="bg-slate-700 text-slate-100 text-xs rounded-lg px-2.5 py-1 whitespace-nowrap shadow-lg border border-slate-600">
-        {tooltip}
-      </div>
-    </div>
-  </div>
-);
+import { IconButton } from "../../components/ui/IconButton";
 
 export const DoctorsPage = () => {
   const [doctors, setDoctors] = useState<Doctor[]>([]);

@@ -3,7 +3,9 @@ import { getAgendaHoy, atenderCita } from "../../api/citas";
 import type { CitaDetalle } from "../../types";
 import { Button } from "../../components/ui/Button";
 import { Modal } from "../../components/ui/Modal";
+import { IconButton } from "../../components/ui/IconButton";
 import { useForm } from "react-hook-form";
+import { Stethoscope } from "lucide-react";
 
 const estadoColors: Record<string, string> = {
   AGENDADA: "bg-yellow-900 text-yellow-300 border-yellow-700",
@@ -23,9 +25,7 @@ interface AtencionForm {
 
 export const AgendaHoyPage = () => {
   const [citas, setCitas] = useState<CitaDetalle[]>([]);
-  const [citaSeleccionada, setCitaSeleccionada] = useState<CitaDetalle | null>(
-    null,
-  );
+  const [citaSeleccionada, setCitaSeleccionada] = useState<CitaDetalle | null>(null);
   const [showAtender, setShowAtender] = useState(false);
   const { register, handleSubmit, reset } = useForm<AtencionForm>();
 
@@ -56,9 +56,7 @@ export const AgendaHoyPage = () => {
   return (
     <div>
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-slate-100">
-          🩺 Mi agenda de hoy
-        </h1>
+        <h1 className="text-2xl font-bold text-slate-100">Mi agenda de hoy</h1>
         <p className="text-slate-400 text-sm mt-1 capitalize">{today}</p>
       </div>
 
@@ -66,46 +64,43 @@ export const AgendaHoyPage = () => {
         {citas.map((c) => (
           <div
             key={c.id}
-            className="bg-slate-800 border border-slate-700 rounded-xl p-4"
+            className="bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 flex justify-between items-center"
           >
-            <div className="flex justify-between items-start">
-              <div>
-                <p className="font-medium text-slate-100">{c.nombrePaciente}</p>
-                <p className="text-xs text-slate-500">
-                  Doc: {c.documentoPaciente}
+            <div>
+              <p className="font-medium text-slate-100">{c.nombrePaciente}</p>
+              <p className="text-xs text-slate-500">Doc: {c.documentoPaciente}</p>
+              <p className="text-sm text-slate-300 mt-1">{c.horaInicio}</p>
+              <p className="text-xs text-slate-400 mt-1">
+                Motivo: {c.motivoConsulta}
+              </p>
+              {c.horaLlegada && (
+                <p className="text-xs text-green-400 mt-1">
+                  Llegó a las: {c.horaLlegada}
                 </p>
-                <p className="text-sm text-slate-300 mt-1"> {c.horaInicio}</p>
-                <p className="text-xs text-slate-400 mt-1">
-                  Motivo: {c.motivoConsulta}
+              )}
+              {c.diagnostico && (
+                <p className="text-xs text-indigo-400 mt-1">
+                  Diagnóstico: {c.diagnostico}
                 </p>
-                {c.horaLlegada && (
-                  <p className="text-xs text-green-400 mt-1">
-                    Llegó a las: {c.horaLlegada}
-                  </p>
-                )}
-                {c.diagnostico && (
-                  <p className="text-xs text-indigo-400 mt-1">
-                    Diagnóstico: {c.diagnostico}
-                  </p>
-                )}
-              </div>
-              <div className="flex flex-col gap-2 items-end">
-                <span
-                  className={`text-xs font-medium px-2 py-1 rounded-full border ${estadoColors[c.estado]}`}
-                >
-                  {c.estado}
-                </span>
-                {c.estado === "CONFIRMADA" && (
-                  <Button
-                    onClick={() => {
-                      setCitaSeleccionada(c);
-                      setShowAtender(true);
-                    }}
-                  >
-                    🩺 Atender
-                  </Button>
-                )}
-              </div>
+              )}
+            </div>
+            <div className="flex flex-col items-end gap-2">
+              <span
+                className={`text-xs font-medium px-2 py-1 rounded-full border ${estadoColors[c.estado]}`}
+              >
+                {c.estado}
+              </span>
+              {c.estado === "CONFIRMADA" && (
+                <IconButton
+                  icon={Stethoscope}
+                  tooltip="Atender paciente"
+                  onClick={() => {
+                    setCitaSeleccionada(c);
+                    setShowAtender(true);
+                  }}
+                  color="text-indigo-400 hover:text-indigo-300 hover:bg-slate-700"
+                />
+              )}
             </div>
           </div>
         ))}

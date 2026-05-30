@@ -5,6 +5,7 @@ import { Button } from "../../components/ui/Button";
 import { Modal } from "../../components/ui/Modal";
 import { useForm } from "react-hook-form";
 import { Eye, XCircle } from "lucide-react";
+import { IconButton } from "../../components/ui/IconButton";
 
 const estadoColors: Record<string, string> = {
   AGENDADA: "bg-yellow-900 text-yellow-300 border-yellow-700",
@@ -13,32 +14,6 @@ const estadoColors: Record<string, string> = {
   ATENDIDA: "bg-blue-900 text-blue-300 border-blue-700",
   NO_ASISTIO: "bg-slate-700 text-slate-400 border-slate-600",
 };
-
-const IconButton = ({
-  icon: Icon,
-  tooltip,
-  onClick,
-  color = "text-slate-400 hover:text-white hover:bg-slate-600",
-}: {
-  icon: React.ElementType;
-  tooltip: string;
-  onClick: () => void;
-  color?: string;
-}) => (
-  <div className="relative group">
-    <button
-      onClick={onClick}
-      className={`p-1.5 rounded-lg transition-colors ${color}`}
-    >
-      <Icon size={15} />
-    </button>
-    <div className="absolute bottom-8 right-0 z-50 hidden group-hover:block pointer-events-none">
-      <div className="bg-slate-700 text-slate-100 text-xs rounded-lg px-2.5 py-1 whitespace-nowrap shadow-lg border border-slate-600">
-        {tooltip}
-      </div>
-    </div>
-  </div>
-);
 
 export const MisCitasPage = () => {
   const [citas, setCitas] = useState<CitaDetalle[]>([]);

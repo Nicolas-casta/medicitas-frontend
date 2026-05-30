@@ -8,7 +8,9 @@ import { getPatients } from "../../api/patients";
 import type { Patient, Cita } from "../../types";
 import { Button } from "../../components/ui/Button";
 import { Modal } from "../../components/ui/Modal";
+import { IconButton } from "../../components/ui/IconButton";
 import { useForm } from "react-hook-form";
+import { UserCheck, XCircle } from "lucide-react";
 
 const estadoColors: Record<string, string> = {
   AGENDADA: "bg-yellow-900 text-yellow-300 border-yellow-700",
@@ -90,51 +92,47 @@ export const GestionCitasPage = () => {
         {citas.map((c) => (
           <div
             key={c.id}
-            className="bg-slate-800 border border-slate-700 rounded-xl p-4"
+            className="bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 flex justify-between items-center"
           >
-            <div className="flex justify-between items-start">
-              <div>
-                <p className="font-medium text-slate-100">
-                  Dr. {c.nombreDoctor} · {c.especialidad}
-                </p>
-                <p className="text-sm text-slate-300">
-                  {c.fecha} · {c.horaInicio}
-                </p>
-                <p className="text-xs text-slate-500 mt-1">
-                  Motivo: {c.motivoConsulta}
-                </p>
-              </div>
-              <div className="flex flex-col gap-2 items-end">
-                <span
-                  className={`text-xs font-medium px-2 py-1 rounded-full border ${estadoColors[c.estado]}`}
-                >
-                  {c.estado}
-                </span>
-                <div className="flex gap-2">
-                  {c.estado === "AGENDADA" && (
-                    <>
-                      <Button
-                        variant="ghost"
-                        onClick={() => {
-                          setCitaSeleccionada(c);
-                          setShowConfirmar(true);
-                        }}
-                      >
-                        Confirmar llegada
-                      </Button>
-                      <Button
-                        variant="danger"
-                        onClick={() => {
-                          setCitaSeleccionada(c);
-                          setShowCancelar(true);
-                        }}
-                      >
-                        Cancelar
-                      </Button>
-                    </>
-                  )}
+            <div>
+              <p className="font-medium text-slate-100">
+                Dr. {c.nombreDoctor} · {c.especialidad}
+              </p>
+              <p className="text-sm text-slate-300">
+                {c.fecha} · {c.horaInicio}
+              </p>
+              <p className="text-xs text-slate-500 mt-1">
+                Motivo: {c.motivoConsulta}
+              </p>
+            </div>
+            <div className="flex flex-col items-end gap-2">
+              <span
+                className={`text-xs font-medium px-2 py-1 rounded-full border ${estadoColors[c.estado]}`}
+              >
+                {c.estado}
+              </span>
+              {c.estado === "AGENDADA" && (
+                <div className="flex gap-1">
+                  <IconButton
+                    icon={UserCheck}
+                    tooltip="Confirmar llegada"
+                    onClick={() => {
+                      setCitaSeleccionada(c);
+                      setShowConfirmar(true);
+                    }}
+                    color="text-green-400 hover:text-green-300 hover:bg-slate-700"
+                  />
+                  <IconButton
+                    icon={XCircle}
+                    tooltip="Cancelar cita"
+                    onClick={() => {
+                      setCitaSeleccionada(c);
+                      setShowCancelar(true);
+                    }}
+                    color="text-red-400 hover:text-red-300 hover:bg-slate-700"
+                  />
                 </div>
-              </div>
+              )}
             </div>
           </div>
         ))}
