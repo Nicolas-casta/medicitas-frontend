@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { getMyProfile, updateMyProfile } from "../../api/patients";
-import { refreshToken } from "../../api/auth";
 import { useAuth } from "../../context/AuthContext";
 import type { Patient } from "../../types";
 import { useForm } from "react-hook-form";

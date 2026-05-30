@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { getMisCitasFiltradas } from "../../api/citas";
-import { cancelarCita } from "../../api/citas";
+import { getMisCitasFiltradas, cancelarCita } from "../../api/citas";
 import type { CitaDetalle } from "../../types";
 import { Button } from "../../components/ui/Button";
 import { Modal } from "../../components/ui/Modal";
 import { useForm } from "react-hook-form";
+import { Eye, XCircle } from "lucide-react";
 
 const estadoColors: Record<string, string> = {
   AGENDADA: "bg-yellow-900 text-yellow-300 border-yellow-700",
@@ -14,19 +14,41 @@ const estadoColors: Record<string, string> = {
   NO_ASISTIO: "bg-slate-700 text-slate-400 border-slate-600",
 };
 
+const IconButton = ({
+  icon: Icon,
+  tooltip,
+  onClick,
+  color = "text-slate-400 hover:text-white hover:bg-slate-600",
+}: {
+  icon: React.ElementType;
+  tooltip: string;
+  onClick: () => void;
+  color?: string;
+}) => (
+  <div className="relative group">
+    <button
+      onClick={onClick}
+      className={`p-1.5 rounded-lg transition-colors ${color}`}
+    >
+      <Icon size={15} />
+    </button>
+    <div className="absolute bottom-8 right-0 z-50 hidden group-hover:block pointer-events-none">
+      <div className="bg-slate-700 text-slate-100 text-xs rounded-lg px-2.5 py-1 whitespace-nowrap shadow-lg border border-slate-600">
+        {tooltip}
+      </div>
+    </div>
+  </div>
+);
+
 export const MisCitasPage = () => {
   const [citas, setCitas] = useState<CitaDetalle[]>([]);
   const [estadoFiltro, setEstadoFiltro] = useState("");
   const [desde, setDesde] = useState("");
   const [hasta, setHasta] = useState("");
-  const [citaSeleccionada, setCitaSeleccionada] = useState<CitaDetalle | null>(
-    null,
-  );
+  const [citaSeleccionada, setCitaSeleccionada] = useState<CitaDetalle | null>(null);
   const [showCancelar, setShowCancelar] = useState(false);
   const [showDetalle, setShowDetalle] = useState(false);
-  const { register, handleSubmit, reset } = useForm<{
-    motivoCancelacion: string;
-  }>();
+  const { register, handleSubmit, reset } = useForm<{ motivoCancelacion: string }>();
 
   const load = async () => {
     const res = await getMisCitasFiltradas({
@@ -54,7 +76,7 @@ export const MisCitasPage = () => {
       <h1 className="text-2xl font-bold text-slate-100 mb-6">Mis citas</h1>
 
       {/* Filtros */}
-      <div className="flex gap-3 mb-6 flex-wrap">
+      <div className="flex gap-3 mb-6 flex-wrap items-center">
         <select
           value={estadoFiltro}
           onChange={(e) => setEstadoFiltro(e.target.value)}
@@ -81,68 +103,47 @@ export const MisCitasPage = () => {
         />
         <Button
           variant="ghost"
-          onClick={() => {
-            setEstadoFiltro("");
-            setDesde("");
-            setHasta("");
-          }}
+          onClick={() => { setEstadoFiltro(""); setDesde(""); setHasta(""); }}
         >
-          Limpiar filtros
+          Limpiar
         </Button>
       </div>
 
+      {/* Lista de citas */}
       <div className="grid gap-3">
         {citas.map((c) => (
           <div
             key={c.id}
-            className="bg-slate-800 border border-slate-700 rounded-xl p-4"
+            className="bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 flex justify-between items-center"
           >
-            <div className="flex justify-between items-start">
-              <div>
-                <p className="font-medium text-slate-100">
-                  Dr. {c.nombreDoctor}
-                </p>
-                <p className="text-sm text-slate-400">{c.especialidad}</p>
-                <p className="text-sm text-slate-300 mt-1">
-                   {c.fecha} ·  {c.horaInicio}
-                </p>
-                <p className="text-xs text-slate-500 mt-1">
-                  Motivo: {c.motivoConsulta}
-                </p>
-                {c.diagnostico && (
-                  <p className="text-xs text-indigo-400 mt-1">
-                    Diagnóstico: {c.diagnostico}
-                  </p>
+            <div className="flex flex-col gap-0.5">
+              <p className="font-medium text-slate-100">Dr. {c.nombreDoctor}</p>
+              <p className="text-sm text-slate-400">{c.especialidad}</p>
+              <p className="text-sm text-slate-300">{c.fecha} · {c.horaInicio}</p>
+              <p className="text-xs text-slate-500">Motivo: {c.motivoConsulta}</p>
+              {c.diagnostico && (
+                <p className="text-xs text-indigo-400">Diagnóstico: {c.diagnostico}</p>
+              )}
+            </div>
+
+            <div className="flex flex-col items-end gap-2 ml-4 shrink-0">
+              <span className={`text-xs font-medium px-2 py-1 rounded-full border ${estadoColors[c.estado]}`}>
+                {c.estado}
+              </span>
+              <div className="flex gap-1">
+                <IconButton
+                  icon={Eye}
+                  tooltip="Ver detalle"
+                  onClick={() => { setCitaSeleccionada(c); setShowDetalle(true); }}
+                />
+                {c.estado === "AGENDADA" && (
+                  <IconButton
+                    icon={XCircle}
+                    tooltip="Cancelar cita"
+                    onClick={() => { setCitaSeleccionada(c); setShowCancelar(true); }}
+                    color="text-red-400 hover:text-red-300 hover:bg-slate-600"
+                  />
                 )}
-              </div>
-              <div className="flex flex-col gap-2 items-end">
-                <span
-                  className={`text-xs font-medium px-2 py-1 rounded-full border ${estadoColors[c.estado]}`}
-                >
-                  {c.estado}
-                </span>
-                <div className="flex gap-2">
-                  <Button
-                    variant="ghost"
-                    onClick={() => {
-                      setCitaSeleccionada(c);
-                      setShowDetalle(true);
-                    }}
-                  >
-                    Ver detalle
-                  </Button>
-                  {c.estado === "AGENDADA" && (
-                    <Button
-                      variant="danger"
-                      onClick={() => {
-                        setCitaSeleccionada(c);
-                        setShowCancelar(true);
-                      }}
-                    >
-                      Cancelar
-                    </Button>
-                  )}
-                </div>
               </div>
             </div>
           </div>
@@ -155,27 +156,19 @@ export const MisCitasPage = () => {
       {/* Modal cancelar */}
       {showCancelar && (
         <Modal title="Cancelar cita" onClose={() => setShowCancelar(false)}>
-          <form
-            onSubmit={handleSubmit(onCancelar)}
-            className="flex flex-col gap-4"
-          >
+          <form onSubmit={handleSubmit(onCancelar)} className="flex flex-col gap-4">
             <p className="text-slate-400 text-sm">
-              ¿Estás seguro de cancelar tu cita con Dr.{" "}
-              {citaSeleccionada?.nombreDoctor} el {citaSeleccionada?.fecha}?
+              ¿Estás seguro de cancelar tu cita con Dr. {citaSeleccionada?.nombreDoctor} el {citaSeleccionada?.fecha}?
             </p>
             <div className="flex flex-col gap-1">
-              <label className="text-sm text-slate-400">
-                Motivo de cancelación
-              </label>
+              <label className="text-sm text-slate-400">Motivo de cancelación</label>
               <textarea
                 {...register("motivoCancelacion", { required: true })}
                 rows={3}
                 className="bg-slate-900 border border-slate-600 rounded-lg px-3 py-2 text-slate-100 resize-none"
               />
             </div>
-            <Button type="submit" variant="danger">
-              Confirmar cancelación
-            </Button>
+            <Button type="submit" variant="danger">Confirmar cancelación</Button>
           </form>
         </Modal>
       )}
@@ -183,34 +176,26 @@ export const MisCitasPage = () => {
       {/* Modal detalle */}
       {showDetalle && citaSeleccionada && (
         <Modal title="Detalle de cita" onClose={() => setShowDetalle(false)}>
-          <div className="flex flex-col gap-3 text-sm">
-            <div className="grid grid-cols-2 gap-2">
-              <div>
-                <span className="text-slate-500">Doctor</span>
-                <p className="text-slate-100">
-                  Dr. {citaSeleccionada.nombreDoctor}
-                </p>
-              </div>
-              <div>
-                <span className="text-slate-500">Especialidad</span>
-                <p className="text-slate-100">
-                  {citaSeleccionada.especialidad}
-                </p>
-              </div>
-              <div>
-                <span className="text-slate-500">Fecha</span>
-                <p className="text-slate-100">{citaSeleccionada.fecha}</p>
-              </div>
-              <div>
-                <span className="text-slate-500">Hora</span>
-                <p className="text-slate-100">{citaSeleccionada.horaInicio}</p>
-              </div>
+          <div className="grid grid-cols-2 gap-3 text-sm">
+            <div>
+              <span className="text-slate-500">Doctor</span>
+              <p className="text-slate-100">Dr. {citaSeleccionada.nombreDoctor}</p>
             </div>
             <div>
+              <span className="text-slate-500">Especialidad</span>
+              <p className="text-slate-100">{citaSeleccionada.especialidad}</p>
+            </div>
+            <div>
+              <span className="text-slate-500">Fecha</span>
+              <p className="text-slate-100">{citaSeleccionada.fecha}</p>
+            </div>
+            <div>
+              <span className="text-slate-500">Hora</span>
+              <p className="text-slate-100">{citaSeleccionada.horaInicio}</p>
+            </div>
+            <div className="col-span-2">
               <span className="text-slate-500">Motivo</span>
-              <p className="text-slate-100">
-                {citaSeleccionada.motivoConsulta}
-              </p>
+              <p className="text-slate-100">{citaSeleccionada.motivoConsulta}</p>
             </div>
             {citaSeleccionada.horaLlegada && (
               <div>
@@ -220,36 +205,28 @@ export const MisCitasPage = () => {
             )}
             {citaSeleccionada.diagnostico && (
               <>
-                <div>
+                <div className="col-span-2">
                   <span className="text-slate-500">Diagnóstico</span>
-                  <p className="text-slate-100">
-                    {citaSeleccionada.diagnostico}
-                  </p>
+                  <p className="text-slate-100">{citaSeleccionada.diagnostico}</p>
                 </div>
                 {citaSeleccionada.observaciones && (
-                  <div>
+                  <div className="col-span-2">
                     <span className="text-slate-500">Observaciones</span>
-                    <p className="text-slate-100">
-                      {citaSeleccionada.observaciones}
-                    </p>
+                    <p className="text-slate-100">{citaSeleccionada.observaciones}</p>
                   </div>
                 )}
                 {citaSeleccionada.indicaciones && (
-                  <div>
+                  <div className="col-span-2">
                     <span className="text-slate-500">Indicaciones</span>
-                    <p className="text-slate-100">
-                      {citaSeleccionada.indicaciones}
-                    </p>
+                    <p className="text-slate-100">{citaSeleccionada.indicaciones}</p>
                   </div>
                 )}
               </>
             )}
             {citaSeleccionada.motivoCancelacion && (
-              <div>
+              <div className="col-span-2">
                 <span className="text-slate-500">Motivo cancelación</span>
-                <p className="text-red-400">
-                  {citaSeleccionada.motivoCancelacion}
-                </p>
+                <p className="text-red-400">{citaSeleccionada.motivoCancelacion}</p>
               </div>
             )}
           </div>
