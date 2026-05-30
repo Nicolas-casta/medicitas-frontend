@@ -7,6 +7,33 @@ import { Modal } from "../../components/ui/Modal";
 import { Input } from "../../components/ui/Input";
 import { useForm } from "react-hook-form";
 import { useAuth } from "../../context/AuthContext";
+import { UserX } from "lucide-react";
+
+const IconButton = ({
+  icon: Icon,
+  tooltip,
+  onClick,
+  color = "text-slate-400 hover:text-white hover:bg-slate-600",
+}: {
+  icon: React.ElementType;
+  tooltip: string;
+  onClick: () => void;
+  color?: string;
+}) => (
+  <div className="relative group">
+    <button
+      onClick={onClick}
+      className={`p-1.5 rounded-lg transition-colors ${color}`}
+    >
+      <Icon size={15} />
+    </button>
+    <div className="absolute bottom-8 right-0 z-50 hidden group-hover:block pointer-events-none">
+      <div className="bg-slate-700 text-slate-100 text-xs rounded-lg px-2.5 py-1 whitespace-nowrap shadow-lg border border-slate-600">
+        {tooltip}
+      </div>
+    </div>
+  </div>
+);
 
 export const DoctorsPage = () => {
   const [doctors, setDoctors] = useState<Doctor[]>([]);
@@ -42,11 +69,7 @@ export const DoctorsPage = () => {
         await deactivateDoctor(id);
         load();
       } catch (error) {
-        if (error instanceof Error) {
-          alert(error.message);
-        } else {
-          alert("Error al desactivar");
-        }
+        alert(error instanceof Error ? error.message : "Error al desactivar");
       }
     }
   };
@@ -63,11 +86,9 @@ export const DoctorsPage = () => {
       <div className="mb-4">
         <select
           onChange={(e) =>
-            setFilterSpecialty(
-              e.target.value ? Number(e.target.value) : undefined,
-            )
+            setFilterSpecialty(e.target.value ? Number(e.target.value) : undefined)
           }
-          className="bg-slate-800 border border-slate-600 rounded-lg px-3 py-2 text-slate-100"
+          className="bg-slate-800 border border-slate-600 rounded-lg px-3 py-2 text-slate-100 text-sm"
         >
           <option value="">Todas las especialidades</option>
           {specialties.map((s) => (
@@ -82,24 +103,23 @@ export const DoctorsPage = () => {
         {doctors.map((d) => (
           <div
             key={d.id}
-            className="bg-slate-800 border border-slate-700 rounded-xl p-4 flex justify-between items-center"
+            className="bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 flex justify-between items-center"
           >
             <div>
               <p className="font-medium text-slate-100">{d.nombreCompleto}</p>
               <p className="text-sm text-slate-400">
                 {d.especialidad} · {d.email}
               </p>
-              <p className="text-xs text-slate-500">
-                Licencia: {d.licenciaMedica}
-              </p>
+              <p className="text-xs text-slate-500">Licencia: {d.licenciaMedica}</p>
             </div>
-            <div className="flex gap-2">
-              {user?.role === "ADMIN" && (
-                <Button variant="danger" onClick={() => handleDeactivate(d.id)}>
-                  Desactivar
-                </Button>
-              )}
-            </div>
+            {user?.role === "ADMIN" && (
+              <IconButton
+                icon={UserX}
+                tooltip="Desactivar doctor"
+                onClick={() => handleDeactivate(d.id)}
+                color="text-red-400 hover:text-red-300 hover:bg-slate-700"
+              />
+            )}
           </div>
         ))}
       </div>
@@ -111,37 +131,14 @@ export const DoctorsPage = () => {
             className="flex flex-col gap-3 max-h-96 overflow-y-auto pr-1"
           >
             <div className="grid grid-cols-2 gap-3">
-              <Input
-                label="Nombre"
-                register={register("nombre", { required: true })}
-              />
-              <Input
-                label="Apellido"
-                register={register("apellido", { required: true })}
-              />
+              <Input label="Nombre" register={register("nombre", { required: true })} />
+              <Input label="Apellido" register={register("apellido", { required: true })} />
             </div>
-            <Input
-              label="Documento"
-              register={register("documento", { required: true })}
-            />
-            <Input
-              label="Email"
-              type="email"
-              register={register("email", { required: true })}
-            />
-            <Input
-              label="Teléfono"
-              register={register("telefono", { required: true })}
-            />
-            <Input
-              label="Fecha nacimiento"
-              type="date"
-              register={register("fechaNacimiento", { required: true })}
-            />
-            <Input
-              label="Licencia médica"
-              register={register("licenciaMedica", { required: true })}
-            />
+            <Input label="Documento" register={register("documento", { required: true })} />
+            <Input label="Email" type="email" register={register("email", { required: true })} />
+            <Input label="Teléfono" register={register("telefono", { required: true })} />
+            <Input label="Fecha nacimiento" type="date" register={register("fechaNacimiento", { required: true })} />
+            <Input label="Licencia médica" register={register("licenciaMedica", { required: true })} />
             <div className="flex flex-col gap-1">
               <label className="text-sm text-slate-400">Especialidad</label>
               <select
